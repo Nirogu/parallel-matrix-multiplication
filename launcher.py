@@ -28,8 +28,8 @@ def all_experiments(matrix_sizes, threads, repetitions):
 
 if __name__ == "__main__":
     matrix_sizes = range(200, 2001, 200)
-    threads = (1, 2, 4, 8, 10, 14, 16, 20)
-    repetitions = 3
+    threads = (1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20)
+    repetitions = 30
 
     data = all_experiments(matrix_sizes, threads, repetitions)
     columns = ["Matrix_Size", "N_Threads", "Thread", "Time"]
