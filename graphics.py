@@ -20,7 +20,7 @@ heatmap = data.pivot_table(
     values="Time (secs)", index="Matrix_Size", columns="N_Threads", aggfunc="mean"
 )
 ax = sns.heatmap(heatmap, norm=LogNorm())
-ax.set_title("Logarithmic time (secs) values for every experiment")
+ax.set_title("Time values (in seconds) for every experiment")
 plt.savefig("img/size-threads-time.png")
 plt.clf()
 plt.cla()
