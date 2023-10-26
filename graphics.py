@@ -15,6 +15,15 @@ input_file = args.input_file
 data = pd.read_csv(input_file)
 data["Time (secs)"] = data["Time"] * 10**-6
 
+heatmap = data.pivot_table(
+    values="Time (secs)", index="Matrix_Size", columns="N_Threads", aggfunc="mean"
+)
+ax = sns.heatmap(heatmap, robust=True)
+ax.set_title("Time values for every matrix size - threads combination")
+plt.savefig("size-threads-time.png")
+plt.clf()
+plt.cla()
+
 ax = sns.lineplot(
     data, x="N_Threads", y="Time (secs)", hue="Matrix_Size", palette="plasma"
 )
