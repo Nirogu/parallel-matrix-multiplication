@@ -20,7 +20,7 @@ def all_experiments(matrix_sizes, threads, repetitions):
             for _ in trange(
                 repetitions,
                 desc=f"Size: {matrix_size}, {thread} threads",
-                unit="experiment",
+                unit="exec",
             ):
                 data.extend(single_experiment(matrix_size, thread))
     return data
@@ -28,7 +28,7 @@ def all_experiments(matrix_sizes, threads, repetitions):
 
 if __name__ == "__main__":
     matrix_sizes = range(200, 2001, 200)
-    threads = (1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20)
+    threads = range(2, 21, 2)
     repetitions = 30
 
     data = all_experiments(matrix_sizes, threads, repetitions)
