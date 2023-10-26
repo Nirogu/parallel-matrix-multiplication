@@ -34,8 +34,8 @@ python graphics.py experiments.csv
 
 The experimentation results are summarized in the following figures.
 
-![Matrix size vs Threads heatmap](size-threads-time.png)
 ![Matrix size vs Time line plot](size-time.png)
 ![Threads vs Time line plot](threads-time.png)
+![Matrix size vs Threads heatmap](size-threads-time.png)
 
 In this case, the experiments were run in a ml.c5.9xlarge AWS instance, with 36 vCPUs and 72 GiB RAM. Every matrix size - number of threads combination was executed 30 times, in order to make the experiments statistically significant. The values in the graphics represent the mean values of those 30 repetitions.
