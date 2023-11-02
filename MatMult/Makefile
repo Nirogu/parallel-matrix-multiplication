@@ -8,10 +8,13 @@ oL= Otime.c
 BINDIR = ../
 PROGS = $(BINDIR)MM1c
 
-all: MM1c
+all: MM1c MM1r
 
 clean:
 	$(RM) $(PROGS)
 
 MM1c:
+	$(GCC) $(oT) $(oL) $@.c -o $(BINDIR)$@ $(CFLAGS)
+
+MM1r:
 	$(GCC) $(oT) $(oL) $@.c -o $(BINDIR)$@ $(CFLAGS)

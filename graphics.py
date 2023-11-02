@@ -26,7 +26,12 @@ plt.clf()
 plt.cla()
 
 ax = sns.lineplot(
-    data, x="N_Threads", y="Time (secs)", hue="Matrix_Size", palette="plasma"
+    data,
+    x="N_Threads",
+    y="Time (secs)",
+    hue="Matrix_Size",
+    style="Algorithm",
+    palette="plasma",
 )
 ax.set_xticks(range(2, 21, 2))
 ax.set_xlim(2, 20)
@@ -38,7 +43,12 @@ plt.cla()
 
 data["N_Threads"] = data["N_Threads"].astype(str)
 ax = sns.lineplot(
-    data, x="Matrix_Size", y="Time (secs)", hue="N_Threads", palette="plasma"
+    data,
+    x="Matrix_Size",
+    y="Time (secs)",
+    hue="N_Threads",
+    style="Algorithm",
+    palette="plasma",
 )
 ax.grid(axis="both", which="both", linestyle="--")
 ax.set_title("Matrix size vs Time for every number of threads")

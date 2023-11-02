@@ -6,10 +6,14 @@ from tqdm import trange
 
 def single_experiment(matrix_size, threads):
     data = []
-    stream = popen(f"./MM1c {matrix_size} {threads} 0")
-    for line in stream.readlines():
-        values = line.strip().split(",")
-        data.append(values)
+    executables = ("MM1c", "MM1r")
+    algorithm_names = ("row-column", "row-row")
+    for executable, algorithm_name in zip(executables, algorithm_names):
+        stream = popen(f"./{executable} {matrix_size} {threads} 0")
+        for line in stream.readlines():
+            values = line.strip().split(",")
+            values.append(algorithm_name)
+            data.append(values)
     return data
 
 
@@ -32,6 +36,6 @@ if __name__ == "__main__":
     repetitions = 30
 
     data = all_experiments(matrix_sizes, threads, repetitions)
-    columns = ["Matrix_Size", "N_Threads", "Thread", "Time"]
+    columns = ["Matrix_Size", "N_Threads", "Thread", "Time", "Algorithm"]
     data = DataFrame(data, columns=columns)
     data.to_csv("experiments.csv", index=False)

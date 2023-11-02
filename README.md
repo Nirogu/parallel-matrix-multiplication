@@ -10,7 +10,7 @@ Performance tests for parallel matrix multiplication algorithms.
 pip install -r requirements.txt
 ```
 
-2. Build the matrix multiplication executable using `make`.
+2. Build the matrix multiplication executables using `make`.
 
 ```shell
 cd MatMult
