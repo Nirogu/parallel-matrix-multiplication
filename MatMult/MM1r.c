@@ -69,11 +69,13 @@ int main(int argc, char **argv) {
 
 #pragma omp for
     for (i = 0; i < SZ; ++i) {
-      double *pA = a + (i * SZ);
+      double *pA, *pB, S;
+      pA = a + (i * SZ);
       for (j = 0; j < SZ; ++j) {
-        double *pB = b + (j * SZ);
+        pB = b + (j * SZ);
         for (k = 0; k < SZ; ++k, ++pB) {
-          c[i * SZ + k] += (*pA * *pB);
+          S = *pA * *pB;
+          c[i * SZ + k] += S;
         }
         ++pA;
       }
