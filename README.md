@@ -21,7 +21,7 @@ make
 
 ```shell
 cd ..
-python launcher.py
+python launcher.py experiments.csv
 ```
 
 4. Generate the graphics.

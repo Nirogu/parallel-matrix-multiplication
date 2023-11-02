@@ -31,6 +31,15 @@ def all_experiments(matrix_sizes, threads, repetitions):
 
 
 if __name__ == "__main__":
+    parser = ArgumentParser(
+        description="Run matrix multiplication experiments and save data as CSV."
+    )
+    parser.add_argument(
+        "output_file",
+        help="CSV file where the results will be saved",
+    )
+    args = parser.parse_args()
+
     matrix_sizes = range(200, 2001, 200)
     threads = range(2, 21, 2)
     repetitions = 30
@@ -38,4 +47,4 @@ if __name__ == "__main__":
     data = all_experiments(matrix_sizes, threads, repetitions)
     columns = ["Matrix_Size", "N_Threads", "Thread", "Time", "Algorithm"]
     data = DataFrame(data, columns=columns)
-    data.to_csv("experiments.csv", index=False)
+    data.to_csv(args.output_file, index=False)
