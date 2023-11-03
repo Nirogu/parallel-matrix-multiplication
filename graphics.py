@@ -1,4 +1,5 @@
 from argparse import ArgumentParser
+from os import path
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -10,47 +11,58 @@ parser.add_argument(
     "input_file",
     help="CSV file to be read and processed. Should be output of launcher.py",
 )
+parser.add_argument("out_folder", help="Folder where the images will be saved")
 args = parser.parse_args()
 
 input_file = args.input_file
 data = pd.read_csv(input_file)
 data["Time (secs)"] = data["Time"] * 10**-6
 
-heatmap = data.pivot_table(
-    values="Time (secs)", index="Matrix_Size", columns="N_Threads", aggfunc="mean"
-)
-ax = sns.heatmap(heatmap, norm=LogNorm())
-ax.set_title("Time values (in seconds) for every experiment")
-plt.savefig("img/size-threads-time.png")
+algorithms = ["row-column", "row-row"]
+protocols = ["OpenMP", "MPI"]
+fig, ax = plt.subplots(2, 2)
+fig.set_size_inches(10, 10)
+ax_idx = 0
+for protocol in protocols:
+    for algorithm in algorithms:
+        heatmap = data.query(f"Algorithm == '{algorithm}' and Protocol == '{protocol}'")
+        heatmap = heatmap.pivot_table(
+            values="Time (secs)",
+            index="Matrix_Size",
+            columns="N_Threads",
+            aggfunc="mean",
+        )
+        sns.heatmap(heatmap, norm=LogNorm(), ax=ax[*divmod(ax_idx, 2)])
+        ax[*divmod(ax_idx, 2)].set_title(f"Protocol={protocol} | Algorithm={algorithm}")
+        ax_idx += 1
+fig.suptitle("Time (secs) for every threads-size combination", fontsize="x-large")
+plt.savefig(path.join(args.out_folder, "size-threads-time.png"))
 plt.clf()
 plt.cla()
 
-ax = sns.lineplot(
+ax = sns.relplot(
     data,
     x="N_Threads",
     y="Time (secs)",
     hue="Matrix_Size",
-    style="Algorithm",
+    row="Protocol",
+    col="Algorithm",
     palette="plasma",
+    kind="line",
 )
-ax.set_xticks(range(2, 21, 2))
-ax.set_xlim(2, 20)
-ax.grid(axis="both", which="both", linestyle="--")
-ax.set_title("Number of threads vs Time for some matrix sizes")
-plt.savefig("img/threads-time.png")
+plt.savefig(path.join(args.out_folder, "threads-time.png"))
 plt.clf()
 plt.cla()
 
 data["N_Threads"] = data["N_Threads"].astype(str)
-ax = sns.lineplot(
+ax = sns.relplot(
     data,
     x="Matrix_Size",
     y="Time (secs)",
     hue="N_Threads",
-    style="Algorithm",
+    row="Protocol",
+    col="Algorithm",
     palette="plasma",
+    kind="line",
 )
-ax.grid(axis="both", which="both", linestyle="--")
-ax.set_title("Matrix size vs Time for every number of threads")
-ax.set_xlim(200, 2000)
-plt.savefig("img/size-time.png")
+plt.savefig(path.join(args.out_folder, "size-time.png"))

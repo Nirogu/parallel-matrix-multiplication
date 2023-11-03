@@ -27,7 +27,7 @@ python launcher.py experiments.csv
 4. Generate the graphics.
 
 ```shell
-python graphics.py experiments.csv
+python graphics.py experiments.csv img/
 ```
 
 ## Results
