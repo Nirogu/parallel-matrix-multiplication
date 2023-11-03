@@ -25,6 +25,7 @@ fig.set_size_inches(10, 10)
 ax_idx = 0
 for protocol in protocols:
     for algorithm in algorithms:
+        position = divmod(ax_idx, 2)
         heatmap = data.query(f"Algorithm == '{algorithm}' and Protocol == '{protocol}'")
         heatmap = heatmap.pivot_table(
             values="Time (secs)",
@@ -32,11 +33,33 @@ for protocol in protocols:
             columns="N_Threads",
             aggfunc="mean",
         )
-        sns.heatmap(heatmap, norm=LogNorm(), ax=ax[*divmod(ax_idx, 2)])
-        ax[*divmod(ax_idx, 2)].set_title(f"Protocol={protocol} | Algorithm={algorithm}")
+        sns.heatmap(heatmap, norm=LogNorm(), ax=ax[*position])
+        ax[*position].set_title(f"Protocol={protocol} | Algorithm={algorithm}")
         ax_idx += 1
 fig.suptitle("Time (secs) for every threads-size combination", fontsize="x-large")
 plt.savefig(path.join(args.out_folder, "size-threads-time.png"))
+plt.clf()
+plt.cla()
+
+data_size2k_threads20 = data.query("Matrix_Size == 2000 and N_Threads == 20")
+algorithms = ["row-column", "row-row"]
+protocols = ["OpenMP", "MPI"]
+fig, ax = plt.subplots(2, 2)
+fig.set_size_inches(12, 12)
+ax_idx = 0
+for protocol in protocols:
+    for algorithm in algorithms:
+        position = divmod(ax_idx, 2)
+        dist = data_size2k_threads20.query(
+            f"Algorithm == '{algorithm}' and Protocol == '{protocol}'"
+        )
+        sns.violinplot(dist, y="Time (secs)", inner="quart", ax=ax[*position])
+        ax[*position].set_title(f"Protocol={protocol} | Algorithm={algorithm}")
+        ax_idx += 1
+fig.suptitle(
+    "Time (secs) distribution for Matrix_Size=2000, N_Threads=20", fontsize="x-large"
+)
+plt.savefig(path.join(args.out_folder, "distribution.png"))
 plt.clf()
 plt.cla()
 
