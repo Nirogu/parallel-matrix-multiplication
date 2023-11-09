@@ -27,7 +27,7 @@ python launcher.py experiments.csv
 4. Generate the graphics, using the results of the experiments from every machine.
 
 ```shell
-python graphics.py experiments1.csv experiments2.csv experiments3.csv img/
+python graphics.py experiments1.csv experiments2.csv experiments3.csv -o img/
 ```
 
 ## Results
