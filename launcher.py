@@ -7,15 +7,13 @@ from tqdm import trange
 
 def single_experiment(matrix_size, threads):
     data = []
-    executables = ("MM1c", "MM1r", "MPI_MM1c", "MPI_MM1r")
-    algorithms = ("row-column", "row-row", "row-column", "row-row")
-    protocols = ("OpenMP", "OpenMP", "MPI", "MPI")
-    for executable, algorithm, protocol in zip(executables, algorithms, protocols):
-        base_command = "mpirun " if protocol == "MPI" else "./"
-        stream = popen(f"{base_command}{executable} {matrix_size} {threads} 0")
+    executables = ("MM1c", "MM1r")
+    algorithms = ("row-column", "row-row")
+    for executable, algorithm in zip(executables, algorithms):
+        stream = popen(f"./{executable} {matrix_size} {threads} 0")
         for line in stream.readlines():
             values = line.strip().split(",")
-            values.extend([algorithm, protocol])
+            values.append(algorithm)
             data.append(values)
     return data
 
@@ -35,7 +33,8 @@ def all_experiments(matrix_sizes, threads, repetitions):
 
 if __name__ == "__main__":
     parser = ArgumentParser(
-        description="Run matrix multiplication experiments and save data as CSV."
+        description="Run matrix multiplication experiments and save data as CSV.",
+        epilog="The output of this program should be used with graphics.py",
     )
     parser.add_argument(
         "output_file",
@@ -48,6 +47,6 @@ if __name__ == "__main__":
     repetitions = 30
 
     data = all_experiments(matrix_sizes, threads, repetitions)
-    columns = ["Matrix_Size", "N_Threads", "Thread", "Time", "Algorithm", "Protocol"]
+    columns = ["Matrix_Size", "N_Threads", "Thread", "Time", "Algorithm"]
     data = DataFrame(data, columns=columns)
     data.to_csv(args.output_file, index=False)

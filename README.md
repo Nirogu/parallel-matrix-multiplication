@@ -24,10 +24,10 @@ cd ..
 python launcher.py experiments.csv
 ```
 
-4. Generate the graphics.
+4. Generate the graphics, using the results of the experiments from every machine.
 
 ```shell
-python graphics.py experiments.csv img/
+python graphics.py experiments1.csv experiments2.csv experiments3.csv img/
 ```
 
 ## Results
@@ -39,4 +39,10 @@ The experimentation results are summarized in the following figures.
 ![Matrix size vs Threads heatmap](img/size-threads-time.png)
 ![Matrix size vs Threads heatmap](img/distribution.png)
 
-In this case, the experiments were run in a ml.c5.9xlarge AWS instance, with 36 vCPUs and 72 GiB RAM. Every matrix size - number of threads combination was executed 30 times, in order to make the experiments statistically significant. The values in the graphics represent the mean values of those 30 repetitions.
+In this case, the experiments were run in 3 different machines:
+
+- A ml.c5.9xlarge AWS instance, with 36 vCPUs and 72 GiB RAM.
+- A ml.m5.8xlarge AWS instance, with 32 vCPUs and 128 GiB RAM.
+- A ml.r5.8xlarge AWS instance, with 32 vCPUs and 128 GiB RAM.
+
+Every matrix size - number of threads combination was executed 30 times, in order to make the experiments statistically significant. The values in the graphics represent the mean values of those 30 repetitions.
