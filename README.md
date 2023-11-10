@@ -46,3 +46,15 @@ In this case, the experiments were run in 3 different machines:
 - A ml.r5.8xlarge AWS instance, with 32 vCPUs and 128 GiB RAM.
 
 Every matrix size - number of threads combination was executed 30 times, in order to make the experiments statistically significant. The values in the graphics represent the mean values of those 30 repetitions.
+
+### Metrics
+
+The following metrics summarize the experimentation results, regarding the algorithms performance for different number of threads:
+
+- Speed up: $$Sp = \frac{t_{serial}}{t_{parallel}}$$
+
+![SpeedUp](img/speedup.png)
+
+- Efficiency: $$Ep = \frac{Sp}{p}$$
+
+![Efficiency](img/efficiency.png)
